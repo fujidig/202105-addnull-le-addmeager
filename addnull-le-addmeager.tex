@@ -1,0 +1,652 @@
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{braket}
+\usepackage{bm}
+\usepackage{mathrsfs}
+\usepackage{accents}
+\usepackage{tocloft}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{tikz}
+\usepackage{url}
+\usepackage{color}
+\usepackage{xifthen}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage[explicit]{titlesec}
+\usepackage[normalem]{ulem}
+\usepackage{mdframed}
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper}
+\usepackage[backend=biber,style=numeric,sorting=none,doi=false,isbn=false,url=false]{biblatex}
+\addbibresource{bib.bib}
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{cd}
+
+\newcommand{\scrN}{\mathcal{N}}
+\newcommand{\scrC}{\mathcal{C}}
+\newcommand{\scrI}{\mathcal{I}}
+\newcommand{\scrJ}{\mathcal{J}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\range}{\operatorname{ran}}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\append}{{}^\frown}
+\newcommand{\boldsig}{\boldsymbol{\Sigma}}
+\newcommand{\boldpi}{\boldsymbol{\Pi}}
+\newcommand{\bolddelta}{\boldsymbol{\Delta}}
+\newcommand{\Ordinals}{\mathrm{On}}
+\newcommand\forces{\Vdash}
+\newcommand\notforces{\nVdash}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\intr}{\operatorname{int}}
+\newcommand{\ro}{\operatorname{ro}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\frakt}{\mathfrak{t}}
+\newcommand{\s}{\mathfrak{s}}
+\newcommand{\frakc}{\mathfrak{c}}
+\newcommand{\Pow}{\mathcal{P}}
+\newcommand{\fin}{\mathrm{fin}}
+\newcommand{\OR}{\mathbin{\text{または}}}
+\newcommand{\AND}{\mathbin{\text{かつ}}}
+\newcommand{\down}{\hspace{-0.2em}\downarrow}
+
+\newcommand{\tukeyle}{\preceq_\mathrm{T}}
+\newcommand{\non}{\operatorname{non}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\add}{\operatorname{add}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\nul}{\mathsf{null}}
+\newcommand{\meager}{\mathsf{meager}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+\renewcommand\emptyset{\varnothing}
+\renewcommand\subset{\subseteq}
+\renewcommand{\setminus}{\smallsetminus}
+
+\def\pair<#1>{\langle #1 \rangle}
+
+\newcommand{\needtocheck}[1][]{%
+	\ifthenelse{\equal{#1}{}}{%
+		\textcolor{blue}{[要チェック]}%
+	}{%
+		\textcolor{blue}{[要チェック: #1]}%
+	}%
+}
+
+\newcommand{\todo}[1][]{%
+	\ifthenelse{\equal{#1}{}}{%
+		\textcolor{red}{[TODO]}%
+	}{%
+		\textcolor{red}{[TODO: #1]}%
+	}%
+}
+
+\theoremstyle{definition}
+\newtheorem{thm}{定理}
+\newtheorem*{thm*}{定理}
+\newtheorem{defi}[thm]{定義}
+\newtheorem*{defi*}{定義}
+\newtheorem{lem}[thm]{補題}
+\newtheorem*{lem*}{補題}
+\newtheorem{fact}[thm]{事実}
+\newtheorem*{fact*}{事実}
+\newtheorem*{formula*}{公式}
+\newtheorem{prop}[thm]{命題}
+\newtheorem*{prop*}{命題}
+\newtheorem{exm}[thm]{例}
+\newtheorem*{exm*}{例}
+\newtheorem{rmk}[thm]{注意}
+\newtheorem*{rmk*}{注意}
+\newtheorem{cor}[thm]{系}
+\newtheorem*{cor*}{系}
+\newtheorem*{notation*}{記法}
+\renewcommand{\proofname}{証明}
+\newenvironment{claim}[1]{\par\noindent\underline{主張:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent∵) \space#1}{\hfill //}
+
+\newtheoremstyle{named}{}{}{
+}{}{\bfseries}{.}{.5em}{#1 \thmnote{#3}}
+\theoremstyle{named}
+\newtheorem*{namedthm}{Theorem}
+\newtheorem*{namedcor}{Corollary}
+
+\renewenvironment{leftbar}[1][\hsize]
+{%
+	\def\FrameCommand
+	{%
+		{\color{black}\vrule width 1pt}%
+		\hspace{0pt}%
+		\fboxsep=\FrameSep\colorbox{white}%
+	}%
+	\MakeFramed{\hsize#1\advance\hsize-\width\FrameRestore}%
+}
+{\endMakeFramed}
+
+%\definecolor{reasontext}{rgb}{0.2,0.2,0.2}
+\definecolor{reasontext}{rgb}{0,0,0}
+\definecolor{reasonbg}{rgb}{0.9,0.9,0.9}
+
+\newenvironment{reason}
+{
+	\begin{mdframed}[backgroundcolor=reasonbg,linewidth=0]
+		\color{reasontext}
+		\small
+	}
+	{
+	\end{mdframed}
+}
+
+\newcommand{\parahead}[1]{{\bfseries \uline{#1}}．}
+
+\title{Bartoszyńskiの定理 $\add(\nul) \le \add(\meager)$の証明}
+\author{でぃぐ (@fujidig)}
+\date{2021年5月8日}
+
+\setcounter{section}{-1}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		$\add(\nul) \le \add(\meager)$とは基数$\kappa$が条件「ルベーグ測度0集合を$\kappa$個和集合をとってもまだルベーグ測度0」を満たすなら，条件「ベール第一類集合を$\kappa$個和集合をとってもまだベール第一類集合」を満たすという主張である．本稿ではこれを証明しよう．
+		逆向きの不等号$\add(\meager) \le \add(\nul)$はZFCで証明できないことが知られているので，これは実数の部分集合で，測度論的に小さい集合全体と位相的に小さい集合全体には非対称性があるということを言っている．
+	\end{abstract}
+	
+	\tableofcontents
+	
+	\vspace{0.3cm}
+	
+	\section{準備}
+	
+	本稿では選択公理を含めた通常の集合論の公理系ZFCを仮定する．
+	
+	$\omega$で$0$を含める自然数全体の集合を表す．
+	しばしば自然数$n$と$n$未満の自然数の全体の集合を同一視する．特に$2$と書いて$\{ 0, 1 \}$を表す．
+	集合$A$に対し$A^\omega$で$A$の元の$\omega$列全体の集合を表す．すなわち，$A^\omega$は$\omega$から$A$への関数の全体の集合である．
+	また，集合$A$に対し$A^{<\omega}$で$A$の元の有限列全体の集合を表し，$[A]^{<\omega} = \{ B \subset A : \text{$B$は有限集合} \}$とおく．
+	
+	$\forall^\infty n$は$\exists n_0 \in\omega\ \forall n \ge n_0$の略記とする．「有限個を除いたすべての自然数$n$に対して」という意味である．
+	同様に$\exists^\infty n$は$\forall n_0 \in \omega\ \exists n \ge n_0$の略記とする．これは「無限個の$n$が存在して」という意味である．
+	
+	写像$f : X \to Y$と部分集合$A \subset X$について$f``A$は$f$による$A$の像を表し，$f \upharpoonright A$は$f$の$A$への制限を表す．
+			
+	\begin{defi}
+		$X$を集合，$\scrI$を$X$の部分集合族とする．
+		\[ \add(\scrI) = \min \left\{ \abs{\mathcal{A}} : \mathcal{A} \subset \scrI \AND \bigcup \mathcal{A} \not \in \scrI \right\} \]
+		とおく．
+	\end{defi}
+	すなわち，$\add(\scrI)$は$\scrI$が$\kappa$個の元の和集合で閉じていると言えなくなる最小の基数$\kappa$である．
+
+	\begin{defi}
+		$2^\omega$に$0$と$1$が平等なコイントス測度を入れ，$2^\omega$の{\bfseries 標準的な測度}という．この測度を$\mu$と書き，$\nul = \{ A \subset 2^\omega : \mu(A) = 0 \}$とおく．
+	\end{defi}
+	
+	\begin{defi}
+		$2^\omega$には2点離散空間$2$の可算直積としての位相を入れ，{\bfseries カントール空間}という．
+		$2^\omega$の内点を持たない閉集合を{\bfseries 閉疎集合}といい，閉疎集合の可算和で覆える集合を{\bfseries ベールの第一類集合}といい，ベールの第一類集合全体の集合を$\meager$で表す．
+	\end{defi}
+
+	閉疎集合の補集合は稠密開集合なこと，したがって，$A$がベールの第一類集合であるとは，$A$の補集合が稠密開集合の可算個の共通部分を含むことと同値であることに注意する．
+
+	\begin{exm}
+		$\emptyset$は測度0でもあるし，ベールの第一類集合でもある．
+		各$x \in 2^\omega$について，一点集合$\{x\}$も測度0でもあるし，ベールの第一類集合でもある．
+		\[
+		A = \{ x \in 2^\omega : \forall n \in \omega\ (x(2n) = 0)\}
+		\]
+		は測度0でもあるし，ベールの第一類集合でもある．
+		\[
+		B = \{ x \in 2^\omega : \exists^\infty n \ (x \upharpoonright [n^2, (n+1)^2) = 0)\}
+		\]
+		は測度$0$だが，補集合がベールの第一類集合である．
+		よって$B$は，測度$0$だがベールの第一類でない集合である．
+	\end{exm}
+
+	\begin{rmk}
+		測度の可算加法性があるので，$\add(\nul)$は可算ではない．すなわち$\add(\nul) \ge \aleph_1$である．
+		また，ベールの第一類集合も可算個の和集合で閉じているので同様に$\add(\meager) \ge \aleph_1$である．
+		全体集合$2^\omega$は$\nul$や$\meager$の元ではないため，一点集合たちの族を考えることで，$\add(\nul)$と$\add(\meager)$は両方とも連続体濃度$2^{\aleph_0}$以下である
+		(全体集合が$\meager$の元でないことは以下で述べるベールの範疇定理の帰結である)．
+		
+		したがって，連続体仮説$\aleph_1 = 2^{\aleph_0}$の下では
+		\[
+		\add(\nul) = \add(\meager) = 2^{\aleph_0} = \aleph_1
+		\]
+		となるので示したい式は自明なものとなる．もちろん，我々はこの記事で連続体仮説を仮定していない．
+	\end{rmk}
+
+	\begin{rmk}
+		$\add(\nul)$と$\add(\meager)$の定義にカントール空間を使っているが，これは実数直線$\R$を使っても同じ値の基数を定める．
+		$\R$ではなくカントール空間を使う理由は「組合せ論的に扱いやすい空間だから」である．
+	\end{rmk}
+
+	位相と測度で必要になる事実は次の2つである．完備距離付け可能な可分位相空間をポーランド空間という．
+	
+	\begin{fact}[ベールの範疇定理]
+		任意のポーランド空間において稠密開集合の可算個の共通部分は稠密である．
+	\end{fact}
+
+	特に，$2^\omega$はポーランド空間で，ポーランド空間の閉集合はポーランド空間なので，$2^\omega$の任意の閉集合についてベールの範疇定理が成り立つことに注意する．
+	
+	\begin{fact}[測度の内部正則性]
+		$2^\omega$のどんな測度正な部分集合も測度正な閉集合を部分集合に持つ．
+	\end{fact}
+	
+	$\add(\nul) \le \add(\meager)$をどのように示せばよいだろうか．
+	一般に$\add(\scrJ) \le \add(\scrI)$であるための便利な十分条件として「$\scrI$から$\scrJ$へのTukey射が存在する」というものがある．
+	
+	\begin{defi}
+		$(P, \le), (Q, \le)$を擬順序集合とする．
+		$(\varphi, \psi)$が$P$から$Q$へのTukey射であるとは次を満たすことを言う：
+		\begin{enumerate}
+			\item $\varphi: P \to Q, \psi: Q \to P$.
+			\item $\forall p \in P\ \forall q \in Q\ (\varphi(p) \le q \Rightarrow p \le \psi(q))$.
+		\end{enumerate}
+		$P$から$Q$へのTukey射があるとき，$P \tukeyle Q$と書く．
+	\end{defi}
+
+	\begin{prop}
+		$\scrI, \scrJ$を集合$X$の包含関係で下に閉じた部分集合族とする．
+		$(\scrI, \subset)$から$(\scrJ, \subset)$へのTukey射が存在するならば，$\add(\scrJ) \le \add(\scrI)$.
+	\end{prop}
+	\begin{proof}
+		$\varphi : \scrI \to \scrJ, \psi : \scrJ \to \scrI$をTukey射とする．
+		$\kappa < \add(\scrJ)$と仮定して，$\kappa < \add(\scrI)$を示せばよい．
+		$\mathcal{A} \subset \scrI$を濃度$\kappa$以下とする．
+		このとき$\varphi``\mathcal{A} \subset \scrJ$であり，しかもこれは濃度$\kappa$以下なので，仮定より$B := \bigcup \varphi``\mathcal{A} \in \scrJ$である．
+		さて，$A \in \mathcal{A}$とすると，$\varphi(A) \subset B$なのでTukey射の定義より$A \subset \psi(B)$．
+		よって$\bigcup \mathcal{A} \subset \psi(B)$となる．
+		$\scrI$は包含関係で下に閉じていて，$\psi(B) \in \scrI$なので，$\bigcup \mathcal{A} \in \scrI$となる．
+	\end{proof}
+
+	よって，$\meager$から$\nul$へのTukey射を構成すればよい．
+	そのために，$\scrC$という新しい擬順序集合を定義する．
+	$\meager \tukeyle \scrC \tukeyle \nul$を示すことにより，目的の$\meager \tukeyle \nul$を得るという流れである ($\tukeyle$は推移的なことに注意)．
+	
+	\begin{defi}
+		集合$\scrC$を
+		\[\scrC = \left\{ S \in ([\omega]^{<\omega})^\omega : \sum_{n \in \omega} \frac{\abs{S(n)}}{(n+1)^2} < \infty \right\}\]
+		で定める．
+		$S, S' \in \scrC$に対して$S' \subset^* S$を$\forall^\infty n\ (S'(n) \subset S(n))$とする．
+		擬順序集合$(\scrC, \subset^*)$を単に$\scrC$と書く．
+	\end{defi}
+	
+	\section{$\meager \tukeyle \scrC$の証明}
+	
+	\begin{lem}\label{opensetswithintersectionprop}
+		$U \subseteq 2^\omega$を非空開集合とし，$\tilde{n} \in \omega$とする．
+		このとき$U$の非空開部分集合の可算な族$\mathcal{V}$が存在して次を満たす：
+		\begin{enumerate}
+			\item $2^\omega$の稠密開集合はどれも$\mathcal{V}$の元を含む．
+			\item $\mathcal{V}$の元の$\tilde{n}$個の共通部分はどれも非空．
+		\end{enumerate}
+	\end{lem}
+	\begin{proof}
+		$(U_n : n \in \omega)$を$2^\omega$の非空なclopen集合でかつ$U$に包含されているものの枚挙とする．
+		$k \in \omega$について
+		\[
+		A_k = \left\{ n \in \omega : \forall I \subset k + 1\ \left(\bigcap_{i \in I} U_i \ne \emptyset \implies U_n \cap \bigcap_{i \in I} U_i \ne \emptyset \right)\right\}
+		\]
+		とおく．
+		\[
+		\mathcal{V} = \left\{ \bigcup_{i \le \tilde{n}} U_{m_i} : m_0 \in \omega \AND m_{i+1} \in A_{m_i} \text{ for $i \le \tilde{n}$} \right\}
+		\]
+		とおく．
+		これが(1), (2)を満たすことを示す．
+		
+		(1)について．$D$を$2^\omega$の稠密開集合とする．
+		各$k \in \omega$について，$A_k \cap \{ n \in \omega : U_n \subset D \} \ne \emptyset$なことに注意する．
+		実際，すべての$I \subset k + 1$で$\bigcap_{i \in I} U_i = \emptyset$なら$U \cap D$に含まれるclopen集合の番号をとればよい．
+		それ以外の場合を考える．各$I \subset k + 1$で$\bigcap_{i \in I} U_i \ne \emptyset$なものについて，$D$の稠密性よりclopen集合$W_I$で$\bigcap_{i \in I} U_i  \cap D$に含まれるものがとれる．$\bigcup \{W_I :  I \subset k + 1 \AND \bigcap_{i \in I} U_i \ne \emptyset \}$は$U$に含まれるclopen集合なのでこれの番号をとればよい．
+		さて，列$( m_i : i \le \tilde{n})$を帰納的に$U_{m_i} \subset D$かつ
+		\[
+			m_{i+1} \in A_{m_i} \text{ for $i \le \tilde{n}$}
+		\]
+		となるように選ぶ．
+		すると$D \supseteq \bigcup_{i \le \tilde{n}} U_{m_i} \in \mathcal{V}$である．
+		
+		(2)について．
+		$V_1, \dots, V_{\tilde{n}} \in \mathcal{V}$とする．
+		\[
+		V_j = \bigcup_{i \le \tilde{n}} U_{m^j_i} \text{ where $m^j_{i+1} \in A_{m^j_i}$}
+		\]
+		と書ける．すると，
+		\[
+		\bigcap_{j \le \tilde{n}} U_{m^j_j} \subset \bigcap_{j \le \tilde{n}} V_j
+		\]
+		である．左辺が非空なことを言えば右辺も非空になるのでよい．
+		今，$V_j$たちの番号を並べ直して
+		\[
+		m^i_i \le m^j_i \text{ for $i\le j \le \tilde{n}$}
+		\]
+		としてよい．
+		$A_k$の定義を使うと$n\le\tilde{n}$に関する帰納法で
+		\[
+		\bigcap_{j \le n} U_{m^j_j} \ne \emptyset
+		\]
+		が示せる．よってよい．
+		
+		最後に$\mathcal{V}$が可算集合なことを示しておく．高々可算なことは定義より明らか．
+		有限集合だと仮定する．
+		$\{V_1, \dots, V_n\} = \mathcal{V}$とする．
+		$x_1 \in V_1, \dots, x_n \in V_n$をとる．
+		$V = 2^\omega \setminus \{x_1, \dots, x_n \}$は稠密開集合なので，(1)より$V_i \subset V$がとれなければいけないがこれは矛盾．
+	\end{proof}
+	
+	\begin{prop}
+		$\meager \tukeyle \scrC$.
+	\end{prop}
+	\begin{proof}
+		$(U_n : n \in \omega)$を$2^\omega$の基本開集合の枚挙とする．
+		$\mathcal{V}_n = \{V^n_m : m \in \omega \}$を$U = U_n, \tilde{n} = (n+1)^2$に対してLemma \ref{opensetswithintersectionprop}で構成した族とする．
+		
+		$\varphi_1 : \meager \to \scrC$を構成しよう．
+		$F \in \meager$とする．
+		すると$F \subseteq \bigcup_{n \in \omega} F_n$で$(F_n : n \in \omega)$は単調増大な閉疎集合の列である．
+		今，
+		\[s_F(n) = \min \{k \in \omega : F_n \cap V^n_k = \emptyset \}\]
+		とおく．Lemma  \ref{opensetswithintersectionprop}の条件より最小値は存在する．
+		$\varphi_1(F) = S_F \in \scrC$を
+		\[
+		S_F(n) = \{ s_F(n) \}
+		\]
+		と定める．どの$n$についても$\abs{S_F(n)} = 1$なので$\sum_n \abs{S_F(n)}/(n+1)^2 < \infty$は明らか．
+		
+		続いて$\varphi_1^*: \scrC \to \meager$を構成しよう．
+		$S \in \scrC$について$\varphi_1^*(S) \in \meager$を
+		\[
+		\varphi_1^*(S) = F^S = 2^\omega \setminus \bigcap_{n \in \omega} \bigcup_{m > n} \bigcap_{i \in S(m)} V^m_i
+		\]
+		で定める．
+		$\sum_m \abs{S(m)}/(m+1)^2 < \infty$より$\forall^\infty m\ ( \abs{S(m)}\le (m+1)^2)$なのでLemma \ref{opensetswithintersectionprop}の性質より
+		\[
+		\emptyset \ne \bigcap_{i \in S(m)} V^m_i \subset U_m.
+		\]
+		よって，
+		\[
+		2^\omega \setminus F^S =  \bigcap_{n \in \omega} \bigcup_{m > n} \bigcap_{i \in S(m)} V^m_i
+		\]
+		において
+		\[
+		\bigcup_{m > n} \bigcap_{i \in S(m)} V^m_i
+		\]
+		は稠密開集合である (各基本開集合$U_m$と空でない交わりを持つから)．したがって，$2^\omega \setminus F^S$は稠密開集合の可算共通部分なので$F^S$はベール第一類集合である．
+		
+		最後に$\varphi_1, \varphi_1^*$がTukey射なことを確かめよう．
+		$\varphi_1(F) = S_F \subset^* S$と仮定する．
+		すると$m_0 \in \omega$があって
+		\[
+		\forall m \ge m_0\ (S_F(m) \subset S(m)).
+		\]
+		今$n \ge m_0$について
+		\[
+		\bigcup_{m > n} \bigcap_{i \in S(m)} V^m_i \subset \bigcup_{m > n} \bigcap_{i \in S_F(m)} V^m_i = \bigcup_{m > n} V^m_{s_F(m)}.
+		\]
+		$s_F(m)$の定義より右辺は$F_n$と互いに素である．よって左辺も$F_n$と互いに素．
+		したがって，$F^S \supseteq F$を得る．
+		\end{proof}
+	
+	\section{$\scrC \tukeyle \nul$の証明}
+	
+	\begin{defi}
+		カントール空間$2^\omega$の部分集合族$(A_i : i \in I)$が独立であるとは，添字のどの有限部分集合$I_0 \subset I$についても
+		\[
+			\mu(\bigcap_{i \in I_0} A_i) = \prod_{i \in I_0} \mu(A_i)
+		\]
+		となることを言う．
+	\end{defi}
+	
+	\begin{lem}
+		実数列$\{ a_n : n \in \omega \} \subset (0, 1)$が与えられたする．
+		このとき$2^\omega$の独立な開集合の列$\{A_n : n \in \omega \}$があって$\mu(A_n)  = a_n$となる．
+	\end{lem}
+	\begin{proof}
+		$j \in \omega$について
+		\[
+			B_j = \{ x \in 2^\omega : x(j) = 1\}
+		\]
+		とおく．
+		各$n$について自然数列$(k^n_m : m \in \omega)$であって
+		\[
+		\prod_{m \in \omega} \left(1 - \frac{1}{2^{k^n_m}}\right) = 1 - a_n
+		\]
+		であるものをとる．
+		\begin{reason}
+			これはとれる．実際，$m$について帰納的にそこまでの部分積が$1-a_n$を超えるギリギリの$k^n_m$を取っていけば，この数列は$1 - a_n$に収束するからだ．
+		\end{reason}
+	
+		$\{ I^n_m : n, m \in \omega \}$を$\omega$の互いに素な部分集合の族で$\abs{I^n_m} = k^n_m$なものとしてとる．
+		
+		$n \in \omega$について
+		\[
+		A_n = 2^\omega \setminus \bigcap_{m \in \omega} (2^\omega \setminus \bigcap_{j \in I^n_m} B_j )
+		\]
+		とおけばこれは測度$a_n$な開集合でかつ，$A_n$たちは独立となる
+		(独立となるのは直観的にはそれぞれがばらばらの添字にしか依存していないからだ)．
+	\end{proof}
+
+
+	\begin{lem}\label{coverctbl}
+		$(S_n : n \in \omega) \subset \scrC$ならば，$S \in \scrC$があって，すべての$n \in \omega$について$S_n \subset^* S$.	
+	\end{lem}
+	\begin{proof}
+		各$n$について$\sum_j \abs{S_n(j)}/(j + 1)^2 < \infty$なので，
+		単調増加数列$(j_n : n \in \omega) \in \omega^\omega$であって
+		\[
+			\sum_{j = j_n}^\infty \frac{\abs{S_n(j)}}{(j+1)^2} < \frac{1}{2^n}
+		\]
+		なるものをとれる．
+		$j \in \omega$について$j_n \le j < j_{n+1}$なる$n$を$n_j$と書くとき
+		\[
+		S(j) = \bigcup_{m < n_j} S_m(j)
+		\]
+		とおく．
+		どんな$n$についても$S_n \subset^* S$なことは ($(j_n : n \in \omega)$のとり方によらずに)成立する．
+		実際，$j > j_n$であれば$S_n(j) \subset S(j)$だからである．
+		
+		$S \in \scrC$を示そう．
+		\begin{align*}
+			\sum_j \frac{\abs{S(j)}}{(j+1)^2}
+			&\le \sum_j \frac{\abs{S_0(j)} + \dots + \abs{S_{n_j - 1}(j)}}{(j+1)^2} \\
+			&= \sum_{j=j_0}^\infty \frac{\abs{S_0(j)}}{(j+1)^2} + \sum_{j=j_1}^\infty \frac{\abs{S_1(j)}}{(j+1)^2} + \dots \\
+			&\le 1 + \frac12 + \frac14 + \dots = 2
+		\end{align*}
+		なので$S \in \scrC$である．
+	\end{proof}
+
+	\begin{prop}
+		$\scrC \tukeyle \nul$.
+	\end{prop}
+	\begin{proof}
+		$2^\omega$の開集合の独立な列
+		$\{ G_{i, j} : i, j \in \omega \}$
+		であって，
+		\[
+		\mu(G_{i,j}) = (i+1)^{-2} \text{ (for $i, j \in \omega$)}
+		\]
+		なものを固定する．
+		
+		$\varphi_2: \scrC \to \nul$を定義する．各$S \in \scrC$について
+		\[
+		\varphi_2(S) = G_S = \bigcap_{n \in \omega} \bigcup_{m > n} \bigcup_{k \in S(m)} G_{m, k}
+		\]
+		とおく．
+		\begin{align*}
+		\mu(G_S) &= \mu(\bigcap_{n \in \omega} \bigcup_{m > n} \bigcup_{k \in S(m)} G_{m, k}) \\
+		&\le \mu(\bigcup_{m > n} \bigcup_{k \in S(m)} G_{m, k}) \\
+		&\le \sum_{m > n} \frac{\abs{S(m)}}{(m+1)^2} \to 0 \text{ (as $n \to \infty$)}
+		\end{align*}
+		なので，$\mu(G_S) = 0$．よって任意の$S \in \scrC$について$\varphi_2(S) = G_S \in \nul$である．
+		
+		$\varphi_2^*: \nul \to \scrC$を定義しよう．
+		$G \in \nul$とする．
+		コンパクト集合$K^G \subset 2^\omega$で正の測度を持ち$K^G \cap G = \emptyset$なものをとる (測度の内部正則性よりとれる)．
+		一般性を失うことなく，各開集合$U \subset 2^\omega$について
+		\[
+		K^G \cap U \ne \emptyset \Rightarrow \mu(K^G \cap U) > 0
+		\]
+		としてよい．なぜなら，$K^G \cap U$が測度$0$な各基本開集合$U$を$K^G$から除けばいいからである．
+		
+		$(U_n : n \in \omega)$を$K^G$と交わる基本開集合のすべての枚挙とする．
+		$n, i \in \omega$について
+		\[
+		A^G_{n, i} = \{ j \in \omega : K^G \cap U_n \cap G_{i, j} = \emptyset \}
+		\]
+		とおく．すると
+		\begin{align*}
+		0 &< \mu(K^G \cap U_n) \\
+		&\le \mu(\bigcap_{i \in \omega} \bigcap_{j \in A^G_{n, i}} 2^\omega \setminus G_{i, j}) \\
+		&= \prod_{i \in \omega} \prod_{j \in A^G_{n, i}} \mu(2^\omega \setminus G_{i, j})
+		\end{align*}
+		となる．最初の不等式は$K^G$のとり方，最後の等式は$G_{i, j}$たちの独立性による (測度の連続性より独立性は可算個でも使える)．
+		
+		よって，
+		\[
+		0 < \prod_{i \in \omega} \left(1 - \frac{1}{(i+1)^2}\right)^{\abs{A^G_{n, i}}}
+		\]
+		である．
+		まず，各$\abs{A^G_{n, i}}$は有限なことがこの式より従う．
+		ここで無限積と無限和の収束の関係式
+		\[
+		\prod_n (1 - a_n) > 0 \iff \sum_n a_n < \infty \text{ whenever $0 < a_n < 1$ for all $n$}
+		\]
+		を使う．
+		すると
+		\[
+		\sum_i \frac{\abs{A^G_{n, i}}}{(i+1)^2} < \infty
+		\]
+		を得る．したがって，すべての$n \in \omega$について$(A^G_{n, i} : i \in \omega) \in \scrC$である．
+		
+		\begin{reason}
+			ここは
+			\[
+			\left(\left(1 - \frac{1}{(i+1)^2}\right)^{\abs{A^G_{n, i}}} : i \in \omega\right)
+			\]
+			という数列ではなく，むしろ
+			\[
+			(\underbrace{1-\frac{1}{1^2}, \dots, 1-\frac{1}{1^2}}_\text{$\abs{A^G_{n, 0}}$ times}, \underbrace{1-\frac{1}{2^2}, \dots, 1-\frac{1}{2^2}}_\text{$\abs{A^G_{n, 1}}$ times}, 1-\frac{1}{3^2}, \dots)
+			\]
+			という数列に直した上で無限積の収束の関係式を使っている．
+		\end{reason}
+		
+		ここで補題 \ref{coverctbl}より，$\varphi_2^*(G) = S_G \in \scrC$を$S \in C$であって，
+		\[
+			\forall n\ \forall^\infty i\ (A^G_{n, i} \subset S(i))
+		\]
+		なものとして定める．
+		
+		最後に$\varphi_2, \varphi_2^\ast$がTukey射なことを確認しよう．
+		$S \in \scrC, G \in \nul$とし，
+		\[
+		G_S \subset G
+		\]
+		と仮定する．
+		$K^G$の定義と合わせて考えると
+		\[
+		K^G \cap G_S = \emptyset
+		\]
+		である．
+		今$G_S$の定義に現れる和集合を
+		\[
+			E_n = \bigcup_{m > n} \bigcup_{k \in S(m)} G_{m, k}
+		\]
+		とおく．すると
+		\[
+		\bigcap_{n \in \omega} (K^G \cap E_n) = \emptyset
+		\]
+		であることから，$K^G$を全体空間としたベールの範疇定理(の対偶)より，ある$i_0$について$E_{i_0} \cap K^G$は$K^G$で稠密でない．
+		そこである基本開集合$U_n$で$U_n \cap K^G \ne \emptyset$なものについて
+		\[
+			(U_n \cap K^G) \cap E_{i_0} = \emptyset
+		\]
+		すなわち
+		\begin{equation}
+		(U_n \cap K^G) \cap  \bigcup_{m > i_0} \bigcup_{k \in S(m)} G_{m, k} = \emptyset \label{nointersect}
+		\end{equation}
+		である．すると十分大きな$m$について
+		\[
+			S(m) \subset A^G_{n, m} \subset S_G(m)
+		\]
+		である．最初の包含は式(\ref{nointersect})と$A^G_{n, m}$の定義よりわかり，2つ目の包含は$S_G$のとり方より分かる．
+		したがって，$S \subset^* S_G$なのでこれで証明が終わる．
+	\end{proof}
+	
+	\section{結論}
+	
+	$\meager \tukeyle \nul$が示せたので，その系として次を得る．
+	
+	\begin{thm}
+		$\add(\nul) \le \add(\meager)$. \qed
+	\end{thm}
+
+	$\add(\nul)$のような定義可能な基数を基数不変量というが，これらのZFCで示せる不等号を示した図として次のCichońの図式がある．
+
+	\[
+	\begin{tikzpicture}
+		\tikzset{
+			textnode/.style={text=black},
+		}
+		\tikzset{
+			edge/.style={color=black,thick},
+		}
+		\newcommand{\w}{2.6}
+		\newcommand{\h}{1.5}
+		
+		\node[textnode] (addN) at (0, 0) {$\add(\nul)$};
+		\node[textnode] (covN) at (0, \h*2) {$\cov(\nul)$};
+		
+		\node[textnode] (addM) at (\w, 0) {$\add(\meager)$};
+		\node[textnode] (b) at (\w, \h) {$\mathfrak{b}$};
+		\node[textnode] (nonM) at (\w, \h*2) {$\non(\meager)$};
+		
+		\node[textnode] (covM) at (\w*2, 0) {$\cov(\meager)$};
+		\node[textnode] (d) at (\w*2, \h) {$\mathfrak{d}$};
+		\node[textnode] (cofM) at (\w*2, \h*2) {$\cof(\meager)$};
+		
+		\node[textnode] (nonN) at (\w*3, 0) {$\non(\nul)$};
+		\node[textnode] (cofN) at (\w*3, \h*2) {$\cof(\nul)$};
+		
+		\node[textnode] (aleph1) at (-\w, 0) {$\aleph_1$};
+		\node[textnode] (c) at (\w*4, \h*2) {$2^{\aleph_0}$};
+		
+		\draw[->,edge] (addN) to (covN);
+		\draw[->,edge] (addN) to (addM);
+		\draw[->,edge] (covN) to (nonM);	
+		\draw[->,edge] (addM) to (b);
+		\draw[->,edge] (b) to (nonM);
+		\draw[->,edge] (addM) to (covM);
+		\draw[->,edge] (nonM) to (cofM);
+		\draw[->,edge] (covM) to (d);
+		\draw[->,edge] (d) to (cofM);
+		\draw[->,edge] (b) to (d);
+		\draw[->,edge] (covM) to (nonN);
+		\draw[->,edge] (cofM) to (cofN);
+		\draw[->,edge] (nonN) to (cofN);
+		\draw[->,edge] (aleph1) to (addN);
+		\draw[->,edge] (cofN) to (c);
+	\end{tikzpicture}
+	\]
+	
+	我々は，この図式の左下部分を示したことになる．また，$\cof$という記号を本稿では定義していなかったが，$\meager \tukeyle \nul$の系として$\cof(\meager) \le \cof(\nul)$も得ることができる．
+	$\add(\nul) \le \add(\meager)$と$\cof(\meager) \le \cof(\nul)$の2つがこの図式の中で最も証明が難しいものであり，歴史的にも最後に発見された．
+	
+	\nocite{*}
+	\printbibliography[title=参考文献]
+	
+	本稿の証明は\cite{bartoszynski1995set}の2.3節によっている．
+	Cichońの図式やBartoszyńskiの定理に関する歴史的なことは\cite{fuchino}に書かれている．
+	基数不変量については\cite{blass2010combinatorial}が詳しい．
+	
+\end{document}
